@@ -1,6 +1,5 @@
 from functools import lru_cache
 from typing import Generator
-
 from sqlalchemy.orm import declarative_base, scoped_session, sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 import os
@@ -8,10 +7,10 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-DB_NAME = os.environ.get('DB_NAME') 
+DATABASE_URL = os.environ.get('DATABASE_URL') 
 
 
-engine = create_async_engine(DB_NAME, pool_pre_ping=True)
+engine = create_async_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, class_=AsyncSession )
 Base = declarative_base()
 
