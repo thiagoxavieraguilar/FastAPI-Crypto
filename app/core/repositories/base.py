@@ -13,6 +13,16 @@ class BaseRepository(Generic[ModelType]):
         self.model = model
         self.db = db
 
+    def get(self, id: Any) -> ModelType:
+        obj: ModelType = self.db.query(self.model).filter_by(id=id).one()
+        return obj
+
+    def query(self) -> Query:
+        return self.db.query(self.model)
+
+    def list(self) -> List[ModelType]:
+        objs: List[ModelType] = self.db.query(self.model).all()
+        return objs
 
     def create(self, db_obj: ModelType) -> ModelType:
         self.db.add(db_obj)
@@ -34,5 +44,8 @@ class BaseRepository(Generic[ModelType]):
         self.db.delete(db_obj)
         self.save()
 
+    def refresh(self, db_obj: ModelType):
+        self.db.refresh(db_obj)
+
     def save(self):
-        self.db.commit()
+         self.db.commit()

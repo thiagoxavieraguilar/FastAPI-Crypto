@@ -14,11 +14,12 @@ class UserRepository(BaseRepository):
     def get_username(self, username: str) -> User:
         return self.query().filter_by(username=username).one()
 
-    def create_user_repository(self,username: str, password: str) -> User:
+    async def create_user_repository(self,username: str, password: str) -> User:
         return User(username=username,password=password) 
 
-    def create_user_on_db(self, user: Type[User]) -> User:
-        return self.create(user)
+    def create_user_on_db_repository(self,user: Type[User]) -> User:
+        self.create(user)
 
+    
 def get_user_repository(db: Session = Depends(get_session)) -> UserRepository:
     return UserRepository(User, db)

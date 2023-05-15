@@ -6,6 +6,6 @@ from sqlalchemy.orm import relationship
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String, nullable=True)
-    password = Column(String, nullable=True)
+    username = Column(String(255), nullable=True)
+    password = Column(String(255), nullable=True)
     #favorites = relationship('Favorite', backref='user', lazy='subquery')
