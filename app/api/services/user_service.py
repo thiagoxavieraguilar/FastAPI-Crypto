@@ -11,14 +11,16 @@ class UserService(Service):
     def __init__(self, repository: UserRepository):
          super().__init__(repository)
 
-    async def create_user(self, username: str, password: str) -> User:
+    def create_user(self, username: str, password: str) -> User:
          hashed_password = generate_password_hash(password, method='scrypt')
-         user = await self.repository.create_user_repository(username=username, password=hashed_password)
-         self.create_user_on_db(user=user)
+         user =  self.repository.create_user_repository(username=username, password=hashed_password)
          return user
     
     def create_user_on_db(self,user:Type[User]) -> User:
-          return  self.repository.create_user_on_db_repository(user)
+          self.repository.create_user_on_db_repository(user)
+
+    def delete_user_on_db(self,user_id: int) -> User:
+          self.repository.delete_user_on_db_repository(user_id)
 
 
 def get_user_service(user_repository: UserRepository = Depends(get_user_repository)):

@@ -14,11 +14,15 @@ class UserRepository(BaseRepository):
     def get_username(self, username: str) -> User:
         return self.query().filter_by(username=username).one()
 
-    async def create_user_repository(self,username: str, password: str) -> User:
+    def create_user_repository(self,username: str, password: str) -> User:
         return User(username=username,password=password) 
 
     def create_user_on_db_repository(self,user: Type[User]) -> User:
         self.create(user)
+
+
+    def delete_user_on_db_repository (self,user_id: int) -> None:
+        self.delete(user_id)
 
     
 def get_user_repository(db: Session = Depends(get_session)) -> UserRepository:
