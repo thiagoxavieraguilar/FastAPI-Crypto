@@ -18,6 +18,11 @@ class FavoriteService(Service):
     def create_favorite_on_db(self, favorite: Type[FavoritesCrypto]) -> None:
          self.repository.create_favorite_on_db_repository(favorite=favorite)
 
+    def remove_favorite_on_db(self,user_id: str, symbol: str) -> FavoritesCrypto:
+         self.repository.remove_favorite_on_db_repository(user_id=user_id,symbol=symbol)
+       
+  
+    
 
 def get_favorite_repository(favorite_repository: FavoriteRepository = Depends(get_favorite_repository)):
     return FavoriteService(repository=favorite_repository)

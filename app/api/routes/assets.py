@@ -16,3 +16,12 @@ async def create_user(favorite_input: FavoriteInput, service: FavoriteService = 
         return StandardOutput(message='Ok') 
     except Exception as error:
         raise HTTPException(400, detail=str(error))
+
+
+@assets.post('/remove_favorite', description='My description', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
+async def create_user(user_id: str, symbol: str, service: FavoriteService = Depends(get_favorite_repository)):
+    try:
+        service.remove_favorite_on_db(user_id=user_id,symbol=symbol)
+        return StandardOutput(message='Ok') 
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))

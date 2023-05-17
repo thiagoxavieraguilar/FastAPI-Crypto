@@ -20,7 +20,13 @@ class FavoriteRepository(BaseRepository):
          self.create(favorite)
 
 
+    def get_favorite_id(self,user_id: str, symbol: str) -> int:
+        favorite = self.query().filter(FavoritesCrypto.user_id==user_id,FavoritesCrypto.symbol==symbol).one()
+        return favorite.id
     
+    def remove_favorite_on_db_repository(self,user_id: str, symbol: str) -> None:
+        favorite_id = self.get_favorite_id(user_id=user_id,symbol=symbol)
+        self.delete(id=favorite_id)
     
 def get_favorite_repository(db: Session = Depends(get_session)) -> FavoriteRepository:
     return FavoriteRepository(FavoritesCrypto, db)
