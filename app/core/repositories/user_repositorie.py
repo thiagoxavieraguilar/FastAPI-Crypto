@@ -6,7 +6,7 @@ from app.db.config import get_session
 
 from .base import BaseRepository
 from typing  import  Type
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 
 class UserRepository(BaseRepository):
