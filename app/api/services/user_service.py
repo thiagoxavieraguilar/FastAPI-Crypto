@@ -22,6 +22,14 @@ class UserService(Service):
     def delete_user_on_db(self,user_id: int) -> User:
           self.repository.delete_user_on_db_repository(user_id)
 
+    def get_username(self, username: str) -> User:
+          return self.repository.get_username_repository(username=username) 
+
+    def validate_password(self,input_password: str , hashed_password: str):
+         return self.repository.validate_password_repository(input_password=input_password, hashed_password=hashed_password)
+          
+
+
 
 def get_user_service(user_repository: UserRepository = Depends(get_user_repository)):
     return UserService(repository=user_repository)

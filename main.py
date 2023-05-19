@@ -1,5 +1,5 @@
 import uvicorn
-from app.db.init_db import create_database
+from app.db import create_database
 from app.api.routes import app
 
 if __name__ == "__main__":

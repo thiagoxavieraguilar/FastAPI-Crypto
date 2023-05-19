@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String(255), nullable=True)
+    username = Column(String(255), nullable=True, unique=True)
     password = Column(String(255), nullable=True)
     favorites = relationship('FavoritesCrypto', backref='user', lazy='subquery')
     
