@@ -29,7 +29,7 @@ async def create_user(user_id: int, service: UserService = Depends(get_user_serv
 
 
 @user_router.post('/login', description='My description', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
-async def create_user(user_input: UserInput, service: UserService = Depends(get_user_service)):
+async def login(user_input: UserInput, service: UserService = Depends(get_user_service)):
     try:
         print(user_input.username)
         user_db = service.get_username(username=user_input.username)
@@ -50,7 +50,3 @@ async def create_user(user_input: UserInput, service: UserService = Depends(get_
         raise HTTPException(400, detail=str(error))
 
 
-
-@user_router.get('/home')
-async def home():
-    return "ok"
