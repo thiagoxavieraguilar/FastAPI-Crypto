@@ -36,8 +36,6 @@ async def login(user_input: UserInput, service: UserService = Depends(get_user_s
         input_password = user_input.password
         hashed_password= user_db.password
 
-        print(hashed_password)
-        print(input_password)
         if not user_db or not user_db.password:
             raise HTTPException(401, detail='Incorrect username or password')
         isverif = service.validate_password(input_password=input_password,hashed_password=hashed_password)
