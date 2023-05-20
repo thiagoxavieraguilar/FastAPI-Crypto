@@ -5,7 +5,6 @@ from app.core.repositories.user_repositorie import UserRepository
 from fastapi import Depends
 from app.db.config import get_session
 from app.core.models.user_models import User
-
 from werkzeug.security import check_password_hash
 
 
