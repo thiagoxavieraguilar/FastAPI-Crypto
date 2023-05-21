@@ -9,4 +9,6 @@ class User(Base):
     username = Column(String(255), nullable=True, unique=True)
     password = Column(String(255), nullable=True)
     favorites = relationship('FavoritesCrypto', backref='user', lazy='subquery')
+
+    
     

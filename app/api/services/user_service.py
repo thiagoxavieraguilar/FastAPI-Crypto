@@ -1,20 +1,18 @@
 from app.core.repositories.user_repositorie import UserRepository,get_user_repository
-from typing import List, Optional, Tuple, Type
-from sqlalchemy.exc import NoResultFound
+from typing import  Type
 from app.core.models.user_models import User  
 from app.api.services.base import Service 
-from fastapi import Depends,HTTPException
+from fastapi import Depends, Depends,status,HTTPException
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from werkzeug.security import check_password_hash,generate_password_hash
 import os
 from dotenv import load_dotenv
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from typing import Annotated
-from fastapi import status
+from passlib.context import CryptContext
+from fastapi.responses import JSONResponse
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+pwd_context = CryptContext(schemes=['sha256_crypt'])
+
 
 load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -26,7 +24,7 @@ class UserService(Service):
          super().__init__(repository)
 
     def create_user(self, username: str, password: str) -> User:
-         hashed_password = generate_password_hash(password, method='scrypt')
+         hashed_password =  pwd_context.hash(password)
          user =  self.repository.create_user_repository(username=username, password=hashed_password)
          return user
     
@@ -40,10 +38,10 @@ class UserService(Service):
           return self.repository.get_username_repository(username=username) 
 
     def validate_password(self,input_password: str , hashed_password: str):
-         return check_password_hash(hashed_password, input_password)
+         return pwd_context.verify(input_password,hashed_password)
           
 
-    def create_access_token(self,username: str, expire_in: int = 30) -> jwt:
+    def create_access_token(self,username: str, expire_in: int = 30) -> dict:
         exp = datetime.utcnow() + timedelta(minutes=expire_in)
         payload = {
             'sub': username,
@@ -52,30 +50,32 @@ class UserService(Service):
         
         access_token = jwt.encode(payload,SECRET_KEY,algorithm=ALGORITHM)
         
-        return {
-            'access_token': access_token,
-            'exp': exp.isoformat()
-        }
+        return access_token
     
-    def verify_token(self, access_token: dict) -> User:
+    
+    def verify_token(self,access_token: str) -> dict:
         try:
-            data = jwt.decode(access_token, SECRET_KEY, algorithm=[ALGORITHM])
+            payload = jwt.decode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
+            username = str(payload.get("sub"))
 
-            print(data['sub'])
-            user_on_db = self.get_username(username=data['sub'])
-            print(user_on_db.username)
+            
+            user_on_db = self.get_username(username=username)
+            
             if user_on_db is None:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail='Invalid access token'
                 )
-            
-            return user_on_db.username
 
-        except jwt.DecodeError:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail='Invalid access token'
+            payload = {
+                'username': username,
+                'id': user_on_db.id
+            }
+            return payload
+        except JWTError:
+            return JSONResponse(
+                content={'message': 'Invalid token'},
+                status_code=status.HTTP_401_UNAUTHORIZED
             )
 def get_user_service(user_repository: UserRepository = Depends(get_user_repository)):
     return UserService(repository=user_repository)
