@@ -28,7 +28,7 @@ async def create_user(user_id: int, service: UserService = Depends(get_user_serv
         raise HTTPException(400, detail=str(error))
 
 
-@user_router.post('/login')
+@user_router.post('/login', description='My description', responses={400: {'model': ErrorOutput}})
 async def login(user_input: OAuth2PasswordRequestForm  = Depends(),service: UserService = Depends(get_user_service)):
     try:
         user_db = service.get_username(username=user_input.username)
@@ -43,7 +43,7 @@ async def login(user_input: OAuth2PasswordRequestForm  = Depends(),service: User
 
         access_token = service.create_access_token(username=user_input.username, expire_in=30)
         return {"access_token": access_token, "token_type": "bearer"}
-
+    
     except Exception as error:
         raise HTTPException(400, detail=str(error))
 

@@ -11,8 +11,8 @@ class FavoriteService(Service):
     def __init__(self, repository: FavoriteRepository):
          super().__init__(repository)
 
-    def create_favorite(self,symbol: str, quantity: float, user_id: int ) -> FavoritesCrypto:
-          favorite = self.repository.create_favorite_repository(symbol=symbol,quantity=quantity,user_id=user_id)
+    def create_favorite(self,symbol: str, user_id: int ) -> FavoritesCrypto:
+          favorite = self.repository.create_favorite_repository(symbol=symbol,user_id=user_id)
           return favorite
     
     def create_favorite_on_db(self, favorite: Type[FavoritesCrypto]) -> FavoritesCrypto:
@@ -23,7 +23,7 @@ class FavoriteService(Service):
        
     def get_all_favorites(self,user_id: int) -> dict:
          favorites = self.repository.get_all_favorites_on_db_repository(user_id=user_id)
-         favorite_list = [{'id': favorite.id, 'symbol': favorite.symbol, 'quantity': favorite.quantity} for favorite in favorites]
+         favorite_list = [{'id': favorite.id, 'symbol': favorite.symbol} for favorite in favorites]
          return {'id': user_id, 'favorites': favorite_list  }
     
 

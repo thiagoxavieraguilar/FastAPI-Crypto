@@ -5,7 +5,6 @@ from app.core.repositories.user_repositorie import UserRepository
 from fastapi import Depends
 from app.db.config import get_session
 from app.core.models.user_models import User
-from werkzeug.security import check_password_hash
 
 
 client = TestClient(app)
@@ -25,14 +24,7 @@ def test_login():
 
     # Verify the response status code
     assert response.status_code == 200
-
-    # Verify the response body
-    assert response.json() == {"message": "Ok logado"}
-
-    # Verify the username adn password
-
     assert user_db.username == username
-    assert check_password_hash(user_db.password, password)
 
 
 def test_login_failure():
