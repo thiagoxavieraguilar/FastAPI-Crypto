@@ -11,11 +11,13 @@ user_router = APIRouter(prefix='/user')
 
 @user_router.post('/create_user', description='My description', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
 async def create_user(user_input: UserInput, service: UserService = Depends(get_user_service)):
-    
-    user = service.create_user(username=user_input.username, password=user_input.password)
-    service.create_user_on_db(user=user)
-    return StandardOutput(message='Ok') 
- 
+    try:
+        user = service.create_user(username=user_input.username, password=user_input.password)
+        service.create_user_on_db(user=user)
+        return StandardOutput(message='Ok user created') 
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
 
 
 
@@ -48,3 +50,6 @@ async def login(user_input: OAuth2PasswordRequestForm  = Depends(),service: User
         raise HTTPException(400, detail=str(error))
 
 
+@user_router.get('/ok')
+def ok():
+    return {'message': 'Ok'}
