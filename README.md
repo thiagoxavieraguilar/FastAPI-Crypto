@@ -18,6 +18,7 @@ This is a FastAPI application that allows users to create an account and track p
 
    ```shell
    git clone https://github.com/thiagoxavieraguilar/FastAPI-Crypto.git
+   
    ```
 
 2. Navigate to the project directory:
