@@ -1,6 +1,10 @@
-run:
+venv:
 	python -m venv venv
+
+activate:
 	venv\Scripts\activate
+
+install:
 	pip install -r docs/requirements.txt
 
 format:
@@ -9,9 +13,5 @@ format:
 test:
 	pytest tests/
 
-build:
-	docker build -t fastapi-app-crypto .
-
-compose-up:
-	docker-compose up
-
+run:
+	python backend/main.py
