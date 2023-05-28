@@ -34,19 +34,6 @@ This is a FastAPI application that allows users to create an account and track p
 
 4. The API will be accessible at `http://localhost:8000`.
 
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
-
-1. Fork the repository.
-
-2. Create a new branch for your feature or bug fix.
-
-3. Make your changes and commit them.
-
-4. Push your changes to your forked repository.
-
-5. Submit a pull request with a detailed description of your changes.
 
 ## Dockerfile and Docker Compose
 
@@ -63,8 +50,23 @@ If you prefer to run the application using Docker, you can use the provided Dock
    ```shell
    docker-compose up
    ```
-
 Please ensure that Docker and Docker Compose are installed and properly configured before running the above commands.
+
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+
+2. Create a new branch for your feature or bug fix.
+
+3. Make your changes and commit them.
+
+4. Push your changes to your forked repository.
+
+5. Submit a pull request with a detailed description of your changes.
+
 
 ## License
 
