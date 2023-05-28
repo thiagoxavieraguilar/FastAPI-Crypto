@@ -48,4 +48,4 @@ class BaseRepository(Generic[ModelType]):
         self.db.refresh(db_obj)
 
     def save(self):
-         self.db.commit()
+        self.db.commit()
