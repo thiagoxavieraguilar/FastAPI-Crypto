@@ -68,9 +68,6 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 5. Submit a pull request with a detailed description of your changes.
 
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
 
 Feel free to customize and extend this application to meet your specific requirements.
 
