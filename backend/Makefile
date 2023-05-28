@@ -13,5 +13,3 @@ format:
 test:
 	pytest tests/
 
-run:
-	python backend/main.py
