@@ -1,11 +1,9 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-
 from app.core.models.favorite_models import FavoritesCrypto
 from app.core.models.user_models import User
 from app.db.config import get_session
 from sqlalchemy.orm import joinedload
-
 from .base import BaseRepository
 from typing import Type
 

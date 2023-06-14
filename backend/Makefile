@@ -1,15 +1,17 @@
+.PHONY: venv activate install format test
+
 venv:
-	python -m venv venv
+	poetry install
 
 activate:
-	venv\Scripts\activate
+	poetry shell
 
 install:
-	pip install -r docs/requirements.txt
+	poetry install
 
 format:
-	black .
+	poetry run black .
+	poetry run isort .
 
 test:
-	pytest tests/
-
+	poetry run pytest tests/
